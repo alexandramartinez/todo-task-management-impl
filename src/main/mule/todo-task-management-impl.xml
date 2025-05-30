@@ -130,6 +130,7 @@ output application/json
             </ee:variables>
         </ee:transform>
         <logger level="INFO" message="put:\tasks\(taskId):application\json:to-do-task-management-api-config" />
+        <flow-ref name="update-task-flow" doc:name="Update Task"/>
     </flow>
     <flow name="delete:\tasks\(taskId):to-do-task-management-api-config">
         <ee:transform doc:name="Transform Message">
@@ -138,9 +139,11 @@ output application/json
             </ee:variables>
         </ee:transform>
         <logger level="INFO" message="delete:\tasks\(taskId):to-do-task-management-api-config" />
+        <flow-ref name="delete-task-flow" doc:name="Delete Task"/>
     </flow>
     <flow name="get:\tasks:to-do-task-management-api-config">
         <logger level="INFO" message="get:\tasks:to-do-task-management-api-config" />
+        <flow-ref name="get-all-tasks-flow" doc:name="Get All Tasks"/>
     </flow>
     <flow name="get:\tasks\(taskId):to-do-task-management-api-config">
         <ee:transform doc:name="Transform Message">
@@ -149,8 +152,10 @@ output application/json
             </ee:variables>
         </ee:transform>
         <logger level="INFO" message="get:\tasks\(taskId):to-do-task-management-api-config" />
+        <flow-ref name="get-task-by-id-flow" doc:name="Get Task By ID"/>
     </flow>
     <flow name="post:\tasks:application\json:to-do-task-management-api-config">
         <logger level="INFO" message="post:\tasks:application\json:to-do-task-management-api-config" />
+        <flow-ref name="create-task-flow" doc:name="Create Task"/>
     </flow>
 </mule>
