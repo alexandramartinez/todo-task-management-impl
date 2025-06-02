@@ -10,47 +10,47 @@
 
     <sub-flow name="get-all-tasks-flow" doc:id="6fdbaf16-63a8-4a6f-838f-802efd09e317">
         <logger level="INFO" doc:name="Start - Get All Tasks" message="Starting get all tasks flow with query params: #[attributes.queryParams]"/>
-        
-        <!-- Prepare query based on filter parameters -->
-        <ee:transform doc:name="Prepare Query">
+        <!-- Execute query with parameterized where clause -->
+        <ee:transform doc:name="Prepare Query Parameters">
             <ee:message />
             <ee:variables>
-                <ee:set-variable variableName="whereClause"><![CDATA[%dw 2.0
+                <ee:set-variable variableName="queryParams"><![CDATA[%dw 2.0
+output application/java
+var completedParam = attributes.queryParams.completed
+var dueDateParam = attributes.queryParams.dueDate
+---
+{
+    completed: if (completedParam != null) completedParam else null,
+    dueDate: if (dueDateParam != null) dueDateParam else null
+}]]></ee:set-variable>
+                <ee:set-variable variableName="sqlQuery"><![CDATA[%dw 2.0
 output application/java
 var completedParam = attributes.queryParams.completed
 var dueDateParam = attributes.queryParams.dueDate
 var conditions = []
 
-fun addCondition(condition) = 
-    if (condition != null) 
-        conditions << condition
-    else 
-        conditions
-
-if (completedParam != null)
-    addCondition("completed = " ++ completedParam)
+var withCompleted = if (completedParam != null) 
+    conditions + "completed = :completed"
 else 
     conditions
-
-if (dueDateParam != null)
-    addCondition("dueDate = '" ++ dueDateParam ++ "'")
+    
+var withDueDate = if (dueDateParam != null)
+    withCompleted + "due_date = :dueDate"
 else 
-    conditions
+    withCompleted
 
-var whereClauseStr = 
-    if (sizeOf(conditions) > 0) 
-        " WHERE " ++ (conditions joinBy " AND ")
-    else 
-        ""
+var whereClauseStr = if (sizeOf(withDueDate) > 0) 
+    " WHERE " ++ (withDueDate joinBy " AND ")
+else 
+    ""
 ---
-whereClauseStr
-]]></ee:set-variable>
+"SELECT id, title, description, dueDate, completed FROM tasks" ++ whereClauseStr]]></ee:set-variable>
             </ee:variables>
         </ee:transform>
         
-        <!-- Execute query with dynamic where clause -->
         <db:select doc:name="Select Tasks" config-ref="mysql-db-config">
-            <db:sql><![CDATA[SELECT id, title, description, dueDate, completed FROM tasks$(vars.whereClause)]]></db:sql>
+            <db:sql><![CDATA[#[vars.sqlQuery]]]></db:sql>
+            <db:input-parameters><![CDATA[#[vars.queryParams]]]></db:input-parameters>
         </db:select>
         
         <!-- Transform database result to API response format -->

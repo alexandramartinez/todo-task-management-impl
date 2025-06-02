@@ -23,6 +23,14 @@
                 <artifactId>mule-maven-plugin</artifactId>
                 <version>${mule.maven.plugin.version}</version>
                 <extensions>true</extensions>
+                <configuration>
+                    <sharedLibraries>
+                        <sharedLibrary>
+                            <groupId>mysql</groupId>
+                            <artifactId>mysql-connector-java</artifactId>
+                        </sharedLibrary>
+                    </sharedLibraries>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -52,6 +60,11 @@
         </pluginRepository>
     </pluginRepositories>
     <dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.29</version>
+        </dependency>
         <dependency>
             <groupId>c567f842-dda9-4c9d-880b-3e1481ab3b34</groupId>
             <artifactId>to-do-task-management-api</artifactId>
