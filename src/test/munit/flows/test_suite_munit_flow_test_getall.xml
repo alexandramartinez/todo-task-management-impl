@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <mule xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="     http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd     http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd     http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd     http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
-  <munit:config name="test_suite_get_tasks_to_do_task_management_api_getalltasks.xml"/>
-  <munit:test name="test_suite_get_tasks_to_do_task_management_api_0" description="Happy path scenario for retrieving all tasks via the get:\tasks:to-do-task-management-api-config flow, ensuring all components and connectors are covered, including the referenced get-all-tasks-flow.">
+  <munit:config name="test_suite_munit_flow_test_getall.xml"/>
+  <munit:test name="test_suite_munit_flow_test_getall-happyPath" description="Happy path scenario for retrieving all tasks via the get:\tasks:to-do-task-management-api-config flow, ensuring all components and connectors are covered, including the referenced get-all-tasks-flow.">
     <!-- Set up the behavior for the test -->
     <munit:behavior>
       <!-- Mock the database select operation to return a predefined list of tasks -->
@@ -11,7 +11,7 @@
           <munit-tools:with-attribute attributeName="config-ref" whereValue="mysql-db-config"/>
         </munit-tools:with-attributes>
         <munit-tools:then-return>
-          <munit-tools:payload value="#[MunitTools::getResourceAsString('test_suite_get_tasks_to_do_task_management_api_getalltasks/mock_data_scenario_0/db-select-response.json')]" mediaType="application/json" encoding="UTF-8"/>
+          <munit-tools:payload value="#[MunitTools::getResourceAsString('test_suite_munit_flow_test_getall/mock_data_scenario_0/db-select-response.json')]" mediaType="application/json" encoding="UTF-8"/>
         </munit-tools:then-return>
       </munit-tools:mock-when>
     </munit:behavior>
@@ -49,7 +49,7 @@
         </munit-tools:with-attributes>
       </munit-tools:verify-call>
       <!-- Assert that the final payload matches the expected transformed API response format -->
-      <munit-tools:assert-that doc:name="Assert Payload Format" expression="#[payload]" is="#[MunitTools::equalTo(read(MunitTools::getResourceAsString('test_suite_get_tasks_to_do_task_management_api_getalltasks/mock_data_scenario_0/expected-response.json'), 'application/json'))]"/>
+      <munit-tools:assert-that doc:name="Assert Payload Format" expression="#[payload]" is="#[MunitTools::equalTo(read(MunitTools::getResourceAsString('test_suite_munit_flow_test_getall/mock_data_scenario_0/expected-response.json'), 'application/json'))]"/>
     </munit:validation>
   </munit:test>
 </mule>

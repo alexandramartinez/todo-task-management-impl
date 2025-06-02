@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <mule xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="     http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd     http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd     http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd     http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
   <munit:config name="test_suite_munit_flow_test_getbyid.xml"/>
-  <munit:test name="test_suite_munit_flow_test_0" description="Successfully retrieve a task by ID when the task exists in the database (happy path).">
+  <munit:test name="test_suite_munit_flow_test_getbyid-happyPath" description="Successfully retrieve a task by ID when the task exists in the database (happy path).">
     <!-- Behavior: This section sets up the initial conditions for the test.
          1. Set Event: Simulates an incoming HTTP GET request with 'taskId' in the URI parameters.
                       This triggers the main flow and provides the necessary input.
@@ -64,7 +64,7 @@
       </munit-tools:verify-call>
     </munit:validation>
   </munit:test>
-  <munit:test name="test_suite_munit_flow_test_1" description="Attempt to retrieve a task by ID when the task does not exist in the database (task not found).">
+  <munit:test name="test_suite_munit_flow_test_getbyid-taskNotFound" description="Attempt to retrieve a task by ID when the task does not exist in the database (task not found).">
     <!-- 
         Behavior Section:
         - Set the event to simulate an HTTP request with a valid taskId in uriParams.

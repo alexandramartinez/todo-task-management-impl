@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <mule xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="     http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd     http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd     http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd     http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
   <munit:config name="test_suite_munit_flow_test_put.xml"/>
-  <munit:test name="test_suite_munit_flow_test_0" description="Successfully update an existing task (happy path) via the PUT /tasks/{taskId} API, covering the case when the task exists in the database.">
+  <munit:test name="test_suite_munit_flow_test_put-happyPath" description="Successfully update an existing task (happy path) via the PUT /tasks/{taskId} API, covering the case when the task exists in the database.">
     <!-- Set up initial test data and mocks -->
     <munit:behavior>
       <!-- Set initial event with payload and uriParams -->
@@ -78,7 +78,7 @@
       <munit-tools:assert-that expression="#[payload.completed]" is="#[MunitTools::equalTo(true)]"/>
     </munit:validation>
   </munit:test>
-  <munit:test name="test_suite_munit_flow_test_1" description="Attempt to update a task that does not exist (task not found scenario), ensuring the 404 path is covered.">
+  <munit:test name="test_suite_munit_flow_test_put-taskNotFound" description="Attempt to update a task that does not exist (task not found scenario), ensuring the 404 path is covered.">
     <munit:behavior>
       <!-- Mock the database select operation to return an empty result, simulating that the task does not exist -->
       <munit-tools:mock-when processor="db:select">
