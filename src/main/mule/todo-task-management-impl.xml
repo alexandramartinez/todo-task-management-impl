@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
-    <http:listener-config name="to-do-task-management-api-httpListenerConfig">
-        <http:listener-connection host="0.0.0.0" port="8081" />
-    </http:listener-config>
-    <apikit:config name="to-do-task-management-api-config" api="resource::c567f842-dda9-4c9d-880b-3e1481ab3b34:to-do-task-management-api:1.0.0:oas:zip:to-do-task-management-api.yaml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    
     <flow name="to-do-task-management-api-main">
         <http:listener config-ref="to-do-task-management-api-httpListenerConfig" path="/api/*">
             <http:response statusCode="#[vars.httpStatus default 200]">
@@ -130,6 +127,7 @@ output application/json
             </ee:variables>
         </ee:transform>
         <logger level="INFO" message="put:\tasks\(taskId):application\json:to-do-task-management-api-config" />
+        <flow-ref name="update-task-flow" doc:name="Update Task"/>
     </flow>
     <flow name="delete:\tasks\(taskId):to-do-task-management-api-config">
         <ee:transform doc:name="Transform Message">
@@ -138,9 +136,11 @@ output application/json
             </ee:variables>
         </ee:transform>
         <logger level="INFO" message="delete:\tasks\(taskId):to-do-task-management-api-config" />
+        <flow-ref name="delete-task-flow" doc:name="Delete Task"/>
     </flow>
     <flow name="get:\tasks:to-do-task-management-api-config">
         <logger level="INFO" message="get:\tasks:to-do-task-management-api-config" />
+        <flow-ref name="get-all-tasks-flow" doc:name="Get All Tasks"/>
     </flow>
     <flow name="get:\tasks\(taskId):to-do-task-management-api-config">
         <ee:transform doc:name="Transform Message">
@@ -149,8 +149,10 @@ output application/json
             </ee:variables>
         </ee:transform>
         <logger level="INFO" message="get:\tasks\(taskId):to-do-task-management-api-config" />
+        <flow-ref name="get-task-by-id-flow" doc:name="Get Task By ID"/>
     </flow>
     <flow name="post:\tasks:application\json:to-do-task-management-api-config">
         <logger level="INFO" message="post:\tasks:application\json:to-do-task-management-api-config" />
+        <flow-ref name="create-task-flow" doc:name="Create Task"/>
     </flow>
 </mule>

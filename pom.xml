@@ -9,21 +9,28 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <mule.maven.plugin.version>4.0.0</mule.maven.plugin.version>
+        <mule.maven.plugin.version>4.3.0</mule.maven.plugin.version>
     </properties>
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.0</version>
             </plugin>
             <plugin>
                 <groupId>org.mule.tools.maven</groupId>
                 <artifactId>mule-maven-plugin</artifactId>
                 <version>${mule.maven.plugin.version}</version>
                 <extensions>true</extensions>
-                <configuration/>
+                <configuration>
+                    <sharedLibraries>
+                        <sharedLibrary>
+                            <groupId>mysql</groupId>
+                            <artifactId>mysql-connector-java</artifactId>
+                        </sharedLibrary>
+                    </sharedLibraries>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -54,6 +61,11 @@
     </pluginRepositories>
     <dependencies>
         <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.29</version>
+        </dependency>
+        <dependency>
             <groupId>c567f842-dda9-4c9d-880b-3e1481ab3b34</groupId>
             <artifactId>to-do-task-management-api</artifactId>
             <version>1.0.0</version>
@@ -69,7 +81,13 @@
         <dependency>
             <groupId>org.mule.connectors</groupId>
             <artifactId>mule-http-connector</artifactId>
-            <version>1.9.2</version>
+            <version>1.10.3</version>
+            <classifier>mule-plugin</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.connectors</groupId>
+            <artifactId>mule-db-connector</artifactId>
+            <version>1.14.16</version>
             <classifier>mule-plugin</classifier>
         </dependency>
     </dependencies>
